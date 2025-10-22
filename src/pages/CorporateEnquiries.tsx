@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { MapPin } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required").max(100),
@@ -55,9 +56,38 @@ const CorporateEnquiries = () => {
     },
   });
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     console.log("Form submitted:", data);
-    toast.success("Your corporate enquiry has been submitted successfully!");
+    
+    // Send email notification
+    try {
+      const { error } = await supabase.functions.invoke('send-booking-email', {
+        body: {
+          type: 'corporate',
+          data: {
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            location: data.location,
+            numCars: data.numCars,
+            numDays: data.numDays,
+            purpose: data.purpose,
+            details: data.details,
+          }
+        }
+      });
+
+      if (error) {
+        console.error('Error sending email:', error);
+        toast.error("Enquiry submitted but email notification failed");
+      } else {
+        toast.success("Your corporate enquiry has been submitted successfully!");
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error("Enquiry submitted but email notification failed");
+    }
+
     form.reset();
     setCharCount(0);
   };

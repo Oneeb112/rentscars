@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "react-hot-toast";
 import type { Car } from "@/data/carsData";
+import { supabase } from "@/integrations/supabase/client";
 
 interface BookingModalProps {
   car: Car;
@@ -56,7 +57,7 @@ const BookingModal = ({ car, isOpen, onClose }: BookingModalProps) => {
     return total;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Validation
@@ -89,7 +90,39 @@ const BookingModal = ({ car, isOpen, onClose }: BookingModalProps) => {
       return;
     }
 
-    toast.success(`Booking request submitted! We'll contact you at ${formData.email}`);
+    // Send email notification
+    try {
+      const { error } = await supabase.functions.invoke('send-booking-email', {
+        body: {
+          type: 'booking',
+          data: {
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            carName: car.name,
+            pickupLocation: formData.pickupLocation,
+            dropoffLocation: differentDropoff ? formData.dropoffLocation : formData.pickupLocation,
+            pickupDate: formData.pickupDate,
+            pickupTime: formData.pickupTime,
+            returnDate: formData.returnDate,
+            returnTime: formData.returnTime,
+            totalDays: days.toString(),
+            totalPrice: total.toFixed(2),
+          }
+        }
+      });
+
+      if (error) {
+        console.error('Error sending email:', error);
+        toast.error("Booking submitted but email notification failed");
+      } else {
+        toast.success(`Booking request submitted! We'll contact you at ${formData.email}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error("Booking submitted but email notification failed");
+    }
+
     onClose();
     
     // Reset form
