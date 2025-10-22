@@ -223,7 +223,7 @@ const Contact = () => {
                 <Card className="overflow-hidden">
                   <div className="aspect-video bg-muted">
                     <iframe
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3619.4842458!2d67.0294!3d24.8607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33e06651d4bbf%3A0x9cf92f44555a0c23!2sOld%20Queens%20Rd%2C%20Lalazar%2C%20Karachi%2C%20Pakistan!5e0!3m2!1sen!2s!4v1234567890123!5m2!1sen!2s"
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3620.5321786419304!2d66.99994917620118!3d24.845667345847865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33f1b34a69937%3A0x9de6f2650eec397!2sMandviwalla%20Rent%20a%20Car!5e0!3m2!1sen!2s!4v1761160175989!5m2!1sen!2s"
                       width="100%"
                       height="100%"
                       style={{ border: 0 }}
