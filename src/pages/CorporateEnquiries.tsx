@@ -67,13 +67,13 @@ const CorporateEnquiries = () => {
       <Navbar />
       
       <main className="flex-1">
-        <section className="py-20 px-4 md:px-8 lg:px-16 bg-gradient-to-b from-muted/30 to-background">
+        <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 md:px-8 lg:px-16 bg-gradient-to-b from-muted/30 to-background">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                CORPORATE ENQUIRIES
+            <div className="text-center mb-8 sm:mb-10 md:mb-12">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
+                Corporate <span className="text-primary">Enquiries</span>
               </h1>
-              <p className="text-lg text-muted-foreground">
+              <p className="text-base sm:text-lg text-muted-foreground px-4">
                 Please fill out the form below and our representatives will be in touch with you shortly
               </p>
             </div>
@@ -140,12 +140,12 @@ const CorporateEnquiries = () => {
                   />
                 </div>
 
-                <div className="bg-muted/50 p-4 rounded-md border border-muted-foreground/20">
+                {/* <div className="bg-muted/50 p-4 rounded-md border border-muted-foreground/20">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <MapPin className="h-4 w-4" />
                     <span>Select your location by clicking on the pin icon.</span>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <FormField
@@ -160,7 +160,7 @@ const CorporateEnquiries = () => {
                               <SelectValue placeholder="Select number of cars" />
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent>
+                          <SelectContent className="max-h-[200px] overflow-y-auto">
                             {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
                               <SelectItem key={num} value={num.toString()}>
                                 {num}
@@ -185,7 +185,7 @@ const CorporateEnquiries = () => {
                               <SelectValue placeholder="Select number of days" />
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent>
+                          <SelectContent className="max-h-[200px] overflow-y-auto">
                             {Array.from({ length: 31 }, (_, i) => i + 1).map((num) => (
                               <SelectItem key={num} value={num.toString()}>
                                 {num}
@@ -248,11 +248,11 @@ const CorporateEnquiries = () => {
                   )}
                 />
 
-                <div className="flex justify-center pt-4">
+                <div className="flex justify-center pt-4 sm:pt-6">
                   <Button 
                     type="submit" 
                     size="lg"
-                    className="px-16 bg-[hsl(330,65%,45%)] hover:bg-[hsl(330,65%,40%)] text-white"
+                    className="w-full sm:w-auto px-12 sm:px-16"
                   >
                     Submit
                   </Button>
