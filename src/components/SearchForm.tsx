@@ -216,7 +216,7 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-7xl mx-auto">
-      <div className="bg-white/95 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-custom-lg border-2 border-yellow-400/50">
+      <div className="bg-gray-100/95 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-custom-lg border-2 border-gray-300/50">
         {/* Main Search Fields */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-2 sm:gap-3">
           {/* Pickup Location */}
@@ -233,7 +233,7 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
                 value={pickupSearch}
                 onChange={(e) => handlePickupSearchChange(e.target.value)}
                 onFocus={() => setShowPickupDropdown(true)}
-                className="pl-10 pr-8 border-2 border-yellow-400/70 focus:border-yellow-500 bg-white h-11"
+                className="pl-10 pr-8 border-2 border-gray-400/70 focus:border-gray-500 bg-white h-11"
               />
               {pickupSearch && (
                 <button
@@ -294,7 +294,7 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
                 value={dropoffSearch}
                 onChange={(e) => handleDropoffSearchChange(e.target.value)}
                 onFocus={() => setShowDropoffDropdown(true)}
-                className="pl-10 pr-8 border-2 border-yellow-400/70 focus:border-yellow-500 bg-white h-11"
+                className="pl-10 pr-8 border-2 border-gray-400/70 focus:border-gray-500 bg-white h-11"
                 disabled={!formData.differentDropoff}
               />
               {dropoffSearch && (
@@ -355,7 +355,7 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
                 min={today}
                 value={formData.pickupDate}
                 onChange={(e) => setFormData({ ...formData, pickupDate: e.target.value })}
-                className="pl-10 border-2 border-yellow-400/70 focus:border-yellow-500 bg-white h-11"
+                className="pl-10 border-2 border-gray-400/70 focus:border-gray-500 bg-white h-11"
               />
             </div>
           </div>
@@ -371,7 +371,7 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
                 id="pickup-time"
                 value={formData.pickupTime}
                 onChange={(e) => setFormData({ ...formData, pickupTime: e.target.value })}
-                className="w-full pl-10 pr-3 py-2.5 border-2 border-yellow-400/70 rounded-md focus:border-yellow-500 bg-white h-11 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400/20"
+                className="w-full pl-10 pr-3 py-2.5 border-2 border-gray-400/70 rounded-md focus:border-gray-500 bg-white h-11 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400/20"
               >
                 {timeOptions.map((time) => (
                   <option key={time} value={time}>
@@ -395,7 +395,7 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
                 min={formData.pickupDate || today}
                 value={formData.returnDate}
                 onChange={(e) => setFormData({ ...formData, returnDate: e.target.value })}
-                className="pl-10 border-2 border-yellow-400/70 focus:border-yellow-500 bg-white h-11"
+                className="pl-10 border-2 border-gray-400/70 focus:border-gray-500 bg-white h-11"
               />
             </div>
           </div>
@@ -411,7 +411,7 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
                 id="return-time"
                 value={formData.returnTime}
                 onChange={(e) => setFormData({ ...formData, returnTime: e.target.value })}
-                className="w-full pl-10 pr-3 py-2.5 border-2 border-yellow-400/70 rounded-md focus:border-yellow-500 bg-white h-11 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400/20"
+                className="w-full pl-10 pr-3 py-2.5 border-2 border-gray-400/70 rounded-md focus:border-gray-500 bg-white h-11 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400/20"
               >
                 {timeOptions.map((time) => (
                   <option key={time} value={time}>
@@ -445,7 +445,7 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
             </div>
 
             {/* Checkbox 2 */}
-            <div className="flex items-center space-x-2">
+            {/* <div className="flex items-center space-x-2">
               <Checkbox
                 id="driver-age"
                 checked={formData.driverAge}
@@ -460,7 +460,7 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
               >
                 Driver aged between 30 - 65?
               </label>
-            </div>
+            </div> */}
           </div>
 
           {/* Search Button */}

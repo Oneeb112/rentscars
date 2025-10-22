@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "react-hot-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -19,7 +20,7 @@ const Contact = () => {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Validation
@@ -35,7 +36,34 @@ const Contact = () => {
       return;
     }
 
-    toast.success("Message sent successfully! We'll get back to you soon.");
+    // Send email notification
+    try {
+      const { error } = await supabase.functions.invoke('send-booking-email', {
+        body: {
+          type: 'corporate',
+          data: {
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            location: 'Contact Form',
+            numCars: 'N/A',
+            numDays: 'N/A',
+            purpose: formData.subject || 'General Inquiry',
+            details: formData.message,
+          }
+        }
+      });
+
+      if (error) {
+        console.error('Error sending email:', error);
+        toast.error("Message submitted but email notification failed");
+      } else {
+        toast.success("Message sent successfully! We'll get back to you soon.");
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error("Message submitted but email notification failed");
+    }
     
     // Reset form
     setFormData({
@@ -66,7 +94,7 @@ const Contact = () => {
     {
       icon: Clock,
       title: "Business Hours",
-      details: ["Mon-Fri: 8AM - 8PM", "Sat-Sun: 9AM - 6PM"],
+      details: ["Mon-Sat: 10AM - 6PM", "Sun: Closed"],
     },
   ];
 
@@ -159,7 +187,7 @@ const Contact = () => {
                           <Input
                             id="email"
                             type="email"
-                            placeholder="john@example.com"
+                            placeholder="example@gmail.com"
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           />
@@ -172,7 +200,8 @@ const Contact = () => {
                           <Input
                             id="phone"
                             type="tel"
-                            placeholder="+1 (234) 567-8900"
+                            placeholder="+92 3XX XXXXXXX"
+
                             value={formData.phone}
                             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                           />

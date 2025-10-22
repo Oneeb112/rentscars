@@ -171,7 +171,7 @@ const BookingModal = ({ car, isOpen, onClose }: BookingModalProps) => {
               <Input
                 id="email"
                 type="email"
-                placeholder="john@example.com"
+                placeholder="example@gmail.com"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
@@ -182,7 +182,7 @@ const BookingModal = ({ car, isOpen, onClose }: BookingModalProps) => {
               <Input
                 id="phone"
                 type="tel"
-                placeholder="+1 (234) 567-8900"
+                placeholder="+92 3XX XXXXXXX"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               />
