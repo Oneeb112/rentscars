@@ -51,17 +51,17 @@ const Contact = () => {
     {
       icon: MapPin,
       title: "Visit Us",
-      details: ["123 Auto Street", "Downtown, City 12345"],
+      details: ["Mandviwalla Rent a Car, Ground Floor,", "Mandviwalla Chambers, Old Queens Rd,", "Lalazar, Karachi, 74200, Pakistan"],
     },
     {
       icon: Phone,
       title: "Call Us",
-      details: ["+1 (234) 567-890", "+1 (234) 567-891"],
+      details: ["+92 345 8279152"],
     },
     {
       icon: Mail,
       title: "Email Us",
-      details: ["info@mrentacar.com", "support@mrentacar.com"],
+      details: ["mandviwallarentacar@gmail.com"],
     },
     {
       icon: Clock,
@@ -223,14 +223,14 @@ const Contact = () => {
                 <Card className="overflow-hidden">
                   <div className="aspect-video bg-muted">
                     <iframe
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.2219901290355!2d-74.00369368400567!3d40.71312937933185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a23e28c1191%3A0x49f75d3281df052a!2s150%20Park%20Row%2C%20New%20York%2C%20NY%2010007%2C%20USA!5e0!3m2!1sen!2s!4v1234567890123!5m2!1sen!2s"
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3619.4842458!2d67.0294!3d24.8607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33e06651d4bbf%3A0x9cf92f44555a0c23!2sOld%20Queens%20Rd%2C%20Lalazar%2C%20Karachi%2C%20Pakistan!5e0!3m2!1sen!2s!4v1234567890123!5m2!1sen!2s"
                       width="100%"
                       height="100%"
                       style={{ border: 0 }}
                       allowFullScreen
                       loading="lazy"
                       referrerPolicy="no-referrer-when-downgrade"
-                      title="M-Rent A Car Location"
+                      title="Mandviwalla Rent a Car Location"
                     />
                   </div>
                 </Card>

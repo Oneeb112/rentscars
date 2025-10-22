@@ -83,18 +83,18 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-start gap-2 text-sm text-muted-foreground">
                 <MapPin className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                <span>123 Auto Street, Downtown, City 12345</span>
+                <span>Mandviwalla Rent a Car, Ground Floor, Mandviwalla Chambers, Old Queens Rd, Lalazar, Karachi, 74200, Pakistan</span>
               </li>
               <li className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Phone className="h-5 w-5 text-primary flex-shrink-0" />
-                <a href="tel:+1234567890" className="hover:text-primary transition-colors">
-                  +1 (234) 567-890
+                <a href="tel:+923458279152" className="hover:text-primary transition-colors">
+                  +92 345 8279152
                 </a>
               </li>
               <li className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Mail className="h-5 w-5 text-primary flex-shrink-0" />
-                <a href="mailto:info@mrentacar.com" className="hover:text-primary transition-colors">
-                  info@mrentacar.com
+                <a href="mailto:mandviwallarentacar@gmail.com" className="hover:text-primary transition-colors">
+                  mandviwallarentacar@gmail.com
                 </a>
               </li>
             </ul>
