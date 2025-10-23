@@ -84,25 +84,32 @@ const CarDetails = () => {
               >
                 <Card>
                   <CardHeader>
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <CardTitle className="text-3xl mb-2">{car.name}</CardTitle>
-                        <div className="flex items-center gap-4">
-                          <Badge variant="secondary">{car.type}</Badge>
-                          <div className="flex items-center gap-1">
-                            <Star className="h-5 w-5 fill-primary text-primary" />
-                            <span className="font-semibold">{car.rating}</span>
-                            <span className="text-muted-foreground text-sm">(127 reviews)</span>
+                    {/* Mobile-optimized header */}
+                    <div className="space-y-3">
+                      {/* Title and Price Row */}
+                      <div className="flex items-start justify-between gap-3">
+                        <CardTitle className="text-xl sm:text-3xl leading-tight flex-1">{car.name}</CardTitle>
+                        <div className="text-right flex-shrink-0">
+                          <div className="flex items-baseline gap-0.5 sm:gap-1">
+                            <span className="text-lg sm:text-2xl font-bold text-primary">Rs</span>
+                            <span className="text-2xl sm:text-4xl font-bold text-primary">{car.pricePerDay}</span>
                           </div>
+                          <span className="text-xs sm:text-sm text-muted-foreground">/day</span>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <div className="flex items-baseline gap-1">
-                          <span className="text-4xl font-bold text-primary">Rs {car.pricePerDay}</span>
-                          <span className="text-muted-foreground">/day</span>
+                      
+                      {/* Badges and Rating Row */}
+                      <div className="flex items-center flex-wrap gap-2">
+                        <Badge variant="secondary" className="bg-blue-600 text-white hover:bg-blue-700 text-xs sm:text-sm">
+                          {car.type}
+                        </Badge>
+                        <div className="flex items-center gap-1">
+                          <Star className="h-4 w-4 sm:h-5 sm:w-5 fill-primary text-primary" />
+                          <span className="font-semibold text-sm sm:text-base">{car.rating}</span>
+                          <span className="text-muted-foreground text-xs sm:text-sm">(127 reviews)</span>
                         </div>
                         {car.discounts && car.discounts.length > 0 && (
-                          <Badge variant="destructive" className="mt-2">
+                          <Badge variant="destructive" className="text-xs sm:text-sm ml-auto">
                             Save {car.discounts[0].percentage}% on {car.discounts[0].days}+ days
                           </Badge>
                         )}
