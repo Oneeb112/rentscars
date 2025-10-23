@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import CarIcon from "@/components/CarIcon";
+import mandviwallaHistory from "@/assets/mandviwalla-motors-history.png";
 
 const About = () => {
   const values = [
@@ -69,17 +70,21 @@ const About = () => {
                 <h2 className="text-4xl font-bold mb-6">Our Story</h2>
                 <div className="space-y-4 text-muted-foreground leading-relaxed">
                   <p>
-                    Founded in 2009, M-Rent A Car began with a simple vision: to revolutionize the car rental 
-                    experience by combining premium vehicles with exceptional customer service.
+                    Our legacy began in the 1950s with Mandviwalla Motors, a prestigious luxury car showroom 
+                    in Karachi that introduced Pakistan to the world's finest automobiles. From those historic 
+                    beginnings on the streets of Karachi, we established a reputation for excellence and trust.
                   </p>
                   <p>
-                    What started as a small fleet of 10 vehicles has grown into a comprehensive collection of 
-                    over 500 premium cars, serving thousands of satisfied customers across multiple locations.
+                    Building on decades of automotive expertise and customer relationships, we evolved into 
+                    M-Rent A Car - bringing the same commitment to luxury, quality, and service that defined 
+                    Mandviwalla Motors. Today, our fleet of over 500 premium vehicles carries forward this 
+                    rich heritage, serving thousands of satisfied customers who expect nothing but the best.
                   </p>
                   <p>
-                    Today, we're proud to be one of the leading car rental providers, known for our commitment 
-                    to quality, transparency, and customer satisfaction. Every vehicle in our fleet is carefully 
-                    selected and meticulously maintained to ensure your safety and comfort.
+                    From classic Land Rovers and Toyota Coasters to modern luxury SUVs and sedans, we offer 
+                    an unmatched selection of vehicles for every occasion. Whether it's a corporate rental, 
+                    family trip, or special event, we provide the same dedication to quality and customer 
+                    satisfaction that has been our hallmark for generations.
                   </p>
                 </div>
               </motion.div>
@@ -92,8 +97,8 @@ const About = () => {
                 className="relative"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800"
-                  alt="Luxury car showroom"
+                  src={mandviwallaHistory}
+                  alt="Mandviwalla Motors - Luxury Car Showroom in Karachi (1950s)"
                   className="rounded-2xl shadow-custom-lg"
                 />
               </motion.div>
