@@ -34,35 +34,35 @@ const CarCard = ({ car, index = 0 }: CarCardProps) => {
             )}
           </div>
           <div className="absolute bottom-3 left-3 flex items-center gap-1 bg-background/90 backdrop-blur-sm px-2 py-1 rounded-lg">
-            <Star className="h-4 w-4 fill-primary text-primary" />
-            <span className="text-sm font-semibold">{car.rating}</span>
+            <Star className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-primary text-primary" />
+            <span className="text-xs sm:text-sm font-semibold">{car.rating}</span>
           </div>
         </CardHeader>
 
         <CardContent className="p-5 flex-grow">
           <div className="space-y-3">
             <div>
-              <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+              <h3 className="text-base sm:text-xl font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2 min-h-[2.5rem] sm:min-h-0">
                 {car.name}
               </h3>
-              <p className="text-sm text-muted-foreground">{car.brand}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">{car.brand}</p>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 text-sm">
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <Users className="h-4 w-4 text-primary" />
+            <div className="grid grid-cols-2 gap-3 text-xs sm:text-sm">
+              <div className="flex items-center gap-1.5 sm:gap-2 text-muted-foreground">
+                <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
                 <span>{car.seats} Seats</span>
               </div>
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <Fuel className="h-4 w-4 text-secondary" />
+              <div className="flex items-center gap-1.5 sm:gap-2 text-muted-foreground">
+                <Fuel className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-secondary" />
                 <span>{car.fuel}</span>
               </div>
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <Gauge className="h-4 w-4 text-primary" />
+              <div className="flex items-center gap-1.5 sm:gap-2 text-muted-foreground">
+                <Gauge className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
                 <span>{car.transmission}</span>
               </div>
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <Luggage className="h-4 w-4 text-secondary" />
+              <div className="flex items-center gap-1.5 sm:gap-2 text-muted-foreground">
+                <Luggage className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-secondary" />
                 <span>{car.luggage} Bags</span>
               </div>
             </div>
@@ -72,16 +72,16 @@ const CarCard = ({ car, index = 0 }: CarCardProps) => {
         <CardFooter className="p-5 pt-0 flex items-center justify-between gap-3">
           <div className="flex-shrink min-w-0">
             <div className="flex items-baseline gap-1 whitespace-nowrap">
-              <span className="text-xl sm:text-2xl font-bold text-primary">Rs {car.pricePerDay}</span>
-              <span className="text-xs sm:text-sm text-muted-foreground">/day</span>
+              <span className="text-lg sm:text-2xl font-bold text-primary">Rs {car.pricePerDay}</span>
+              <span className="text-[10px] sm:text-sm text-muted-foreground">/day</span>
             </div>
             {car.discounts && car.discounts.length > 0 && (
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">
                 Save {car.discounts[0].percentage}% on {car.discounts[0].days}+ days
               </p>
             )}
           </div>
-          <Button asChild className="shadow-red flex-shrink-0">
+          <Button asChild className="shadow-red flex-shrink-0 text-xs sm:text-sm px-3 sm:px-4">
             <Link to={`/cars/${car.slug}`}>View Details</Link>
           </Button>
         </CardFooter>
