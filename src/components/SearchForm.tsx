@@ -216,7 +216,7 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-7xl mx-auto">
-      <div className="bg-gray-100/95 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-custom-lg border-2 border-gray-300/50">
+      <div className="bg-white backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-custom-lg border-2 border-gray-300">
         {/* Main Search Fields */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-2 sm:gap-3">
           {/* Pickup Location */}
@@ -467,7 +467,7 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
           <Button 
             type="submit" 
             size="lg" 
-            className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold px-8 shadow-lg hover:shadow-xl transition-all duration-300 h-11"
+            className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 h-11"
           >
             Search
           </Button>
