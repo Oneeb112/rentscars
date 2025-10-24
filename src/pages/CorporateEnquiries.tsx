@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select";
 import { MapPin } from "lucide-react";
 import { toast } from "react-hot-toast";
-import { supabase } from "@/integrations/supabase/client";
+// Removed Supabase import - now using direct Resend integration
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required").max(100),
@@ -59,10 +59,14 @@ const CorporateEnquiries = () => {
   const onSubmit = async (data: FormValues) => {
     console.log("Form submitted:", data);
     
-    // Send email notification
+    // Send email notification using Resend directly
     try {
-      const { error } = await supabase.functions.invoke('send-booking-email', {
-        body: {
+      const response = await fetch('http://localhost:3001/api/send-booking-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           type: 'corporate',
           data: {
             name: data.name,
@@ -74,15 +78,14 @@ const CorporateEnquiries = () => {
             purpose: data.purpose,
             details: data.details,
           }
-        }
+        })
       });
 
-      if (error) {
-        console.error('Error sending email:', error);
-        toast.error("Enquiry submitted but email notification failed");
-      } else {
-        toast.success("Your corporate enquiry has been submitted successfully!");
+      if (!response.ok) {
+        throw new Error('Failed to send email');
       }
+
+      toast.success("Your corporate enquiry has been submitted successfully!");
     } catch (error) {
       console.error('Error:', error);
       toast.error("Enquiry submitted but email notification failed");

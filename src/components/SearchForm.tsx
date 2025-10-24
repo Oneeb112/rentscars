@@ -467,7 +467,7 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
           <Button 
             type="submit" 
             size="lg" 
-            className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 h-11"
+            className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-semibold px-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 h-11"
           >
             Search
           </Button>

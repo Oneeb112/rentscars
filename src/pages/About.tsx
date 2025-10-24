@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Award, Users, Car, Shield, Target } from "lucide-react";
+import { Award, Users, Car, Shield, Target, MapPin, Wrench, Clock } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
@@ -30,6 +30,37 @@ const About = () => {
     { icon: Users, number: "50K+", label: "Happy Customers" },
     { icon: Award, number: "15+", label: "Years Experience" },
     { icon: Shield, number: "99.9%", label: "Customer Satisfaction" },
+  ];
+
+  const workshopFacilities = [
+    {
+      city: "Karachi",
+      status: "Established",
+      description: "Our flagship workshop facility in Karachi, equipped with state-of-the-art equipment and experienced technicians for premium car rental services.",
+      services: ["Vehicle Pickup & Drop-off", "24/7 Roadside Assistance", "Fleet Maintenance", "Customer Support Center"],
+      established: "2009"
+    },
+    {
+      city: "Larkana",
+      status: "Established",
+      description: "Strategic workshop location serving Sindh region with comprehensive car rental and maintenance services.",
+      services: ["Local Car Rentals", "Airport Transfers", "Fleet Management", "Customer Service"],
+      established: "2015"
+    },
+    {
+      city: "Islamabad",
+      status: "Established",
+      description: "Our capital city facility providing premium car rental services to Islamabad and surrounding areas.",
+      services: ["Premium Car Rentals", "Corporate Fleet Services", "Airport Pickup/Drop", "24/7 Support"],
+      established: "2024"
+    },
+    {
+      city: "Lahore",
+      status: "Coming Soon",
+      description: "Expanding to the heart of Punjab! Our Lahore facility will bring world-class car rental services to Pakistan's cultural capital.",
+      services: ["Premium Car Rentals", "Luxury Vehicle Fleet", "Corporate Services", "24/7 Support"],
+      established: "2025"
+    }
   ];
 
   return (
@@ -103,6 +134,138 @@ const About = () => {
                 />
               </motion.div>
             </div>
+          </div>
+        </section>
+
+        {/* Workshop Facilities */}
+        <section className="py-20 bg-muted">
+          <div className="container mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                Workshop <span className="text-primary">Facilities</span>
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                Nationwide network of professional workshop facilities ensuring your vehicle receives 
+                the best care and maintenance across Pakistan
+              </p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {workshopFacilities.map((workshop, index) => (
+                <motion.div
+                  key={workshop.city}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  <Card className="h-full hover:shadow-red transition-shadow">
+                    <CardContent className="pt-6">
+                      {/* Header */}
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
+                            <MapPin className="h-6 w-6 text-primary" />
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-bold">{workshop.city}</h3>
+                            <p className="text-sm text-muted-foreground">Est. {workshop.established}</p>
+                          </div>
+                        </div>
+                        <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                          workshop.status === 'Established' 
+                            ? 'bg-green-100 text-green-800' 
+                            : 'bg-purple-100 text-purple-800'
+                        }`}>
+                          {workshop.status}
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-muted-foreground mb-6 leading-relaxed">
+                        {workshop.description}
+                      </p>
+
+                      {/* Services */}
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-2 mb-3">
+                          <Wrench className="h-4 w-4 text-primary" />
+                          <span className="font-semibold text-sm">Services Offered:</span>
+                        </div>
+                        <div className="grid grid-cols-1 gap-2">
+                          {workshop.services.map((service, serviceIndex) => (
+                            <div key={serviceIndex} className="flex items-center gap-2">
+                              <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
+                              <span className="text-sm text-muted-foreground">{service}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Status Badge */}
+                      {workshop.status === 'Coming Soon' && (
+                        <div className="mt-4 p-3 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg">
+                          <div className="flex items-center gap-2">
+                            <Clock className="h-4 w-4 text-purple-600" />
+                            <span className="text-sm font-medium text-purple-800">
+                              Coming Soon - Watch This Space!
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Additional Info */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="mt-12 text-center"
+            >
+              <div className="bg-gradient-to-br from-white to-gray-50 p-8 rounded-2xl shadow-xl border border-gray-200">
+                <div className="flex items-center justify-center mb-6">
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-primary to-red-600">
+                    <MapPin className="h-8 w-8 text-white" />
+                  </div>
+                </div>
+                <h3 className="text-3xl font-bold mb-6 text-primary">
+                  Nationwide Service Network
+                </h3>
+                <p className="text-muted-foreground leading-relaxed max-w-4xl mx-auto text-lg mb-6">
+                  Our comprehensive network of car rental facilities ensures that wherever you are in Pakistan, 
+                  premium automotive services are never far away. From our established facilities in Karachi, 
+                  Larkana, and Islamabad to our upcoming expansion in Lahore, we're committed to providing 
+                  consistent, high-quality car rental experiences across the country.
+                </p>
+                
+                {/* Stats Row */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                  <div className="bg-white p-4 rounded-xl shadow-md border border-gray-100">
+                    <div className="text-2xl font-bold text-primary mb-2">3</div>
+                    <div className="text-sm text-muted-foreground font-medium">Established Locations</div>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl shadow-md border border-gray-100">
+                    <div className="text-2xl font-bold text-primary mb-2">1</div>
+                    <div className="text-sm text-muted-foreground font-medium">Coming Soon</div>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl shadow-md border border-gray-100">
+                    <div className="text-2xl font-bold text-primary mb-2">24/7</div>
+                    <div className="text-sm text-muted-foreground font-medium">Customer Support</div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </section>
 

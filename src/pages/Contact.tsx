@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "react-hot-toast";
-import { supabase } from "@/integrations/supabase/client";
+// Removed Supabase import - now using direct Resend integration
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -36,30 +36,30 @@ const Contact = () => {
       return;
     }
 
-    // Send email notification
+    // Send email notification using Resend directly
     try {
-      const { error } = await supabase.functions.invoke('send-booking-email', {
-        body: {
-          type: 'corporate',
+      const response = await fetch('http://localhost:3001/api/send-booking-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'contact',
           data: {
             name: formData.name,
             email: formData.email,
             phone: formData.phone,
-            location: 'Contact Form',
-            numCars: 'N/A',
-            numDays: 'N/A',
-            purpose: formData.subject || 'General Inquiry',
-            details: formData.message,
+            subject: formData.subject || 'General Inquiry',
+            message: formData.message,
           }
-        }
+        })
       });
 
-      if (error) {
-        console.error('Error sending email:', error);
-        toast.error("Message submitted but email notification failed");
-      } else {
-        toast.success("Message sent successfully! We'll get back to you soon.");
+      if (!response.ok) {
+        throw new Error('Failed to send email');
       }
+
+      toast.success("Message sent successfully! We'll get back to you soon.");
     } catch (error) {
       console.error('Error:', error);
       toast.error("Message submitted but email notification failed");

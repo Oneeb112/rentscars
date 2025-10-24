@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "react-hot-toast";
 import type { Car } from "@/data/carsData";
-import { supabase } from "@/integrations/supabase/client";
+// import { supabase } from "@/integrations/supabase/client"; // Commented out - using Resend directly
 
 interface BookingModalProps {
   car: Car;
@@ -20,6 +20,7 @@ const BookingModal = ({ car, isOpen, onClose }: BookingModalProps) => {
     name: "",
     email: "",
     phone: "",
+    cnic: "",
     pickupDate: "",
     pickupTime: "10:00",
     returnDate: "",
@@ -30,6 +31,27 @@ const BookingModal = ({ car, isOpen, onClose }: BookingModalProps) => {
   const [differentDropoff, setDifferentDropoff] = useState(false);
 
   const today = new Date().toISOString().split('T')[0];
+
+  // CNIC validation function for Pakistan format (42101-1234567-8)
+  const validateCNIC = (cnic: string) => {
+    const cnicRegex = /^\d{5}-\d{7}-\d{1}$/;
+    return cnicRegex.test(cnic);
+  };
+
+  // CNIC input formatting function
+  const formatCNIC = (value: string) => {
+    // Remove all non-digits
+    const digits = value.replace(/\D/g, '');
+    
+    // Format as 42101-1234567-8
+    if (digits.length <= 5) {
+      return digits;
+    } else if (digits.length <= 12) {
+      return `${digits.slice(0, 5)}-${digits.slice(5)}`;
+    } else {
+      return `${digits.slice(0, 5)}-${digits.slice(5, 12)}-${digits.slice(12, 13)}`;
+    }
+  };
 
   const calculateDays = () => {
     if (!formData.pickupDate || !formData.returnDate) return 0;
@@ -61,7 +83,7 @@ const BookingModal = ({ car, isOpen, onClose }: BookingModalProps) => {
     e.preventDefault();
 
     // Validation
-    if (!formData.name || !formData.email || !formData.phone || !formData.pickupDate || !formData.returnDate || !formData.pickupLocation) {
+    if (!formData.name || !formData.email || !formData.phone || !formData.cnic || !formData.pickupDate || !formData.returnDate || !formData.pickupLocation) {
       toast.error("Please fill in all fields");
       return;
     }
@@ -90,34 +112,50 @@ const BookingModal = ({ car, isOpen, onClose }: BookingModalProps) => {
       return;
     }
 
-    // Send email notification
+    // CNIC validation
+    if (!validateCNIC(formData.cnic)) {
+      toast.error("Please enter a valid CNIC in format: 42101-1234567-8");
+      return;
+    }
+
+    // Send email notification using Resend directly
     try {
-      const { error } = await supabase.functions.invoke('send-booking-email', {
-        body: {
+      const emailData = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        cnic: formData.cnic,
+        carName: car.name,
+        pickupLocation: formData.pickupLocation,
+        dropoffLocation: differentDropoff ? formData.dropoffLocation : formData.pickupLocation,
+        pickupDate: formData.pickupDate,
+        pickupTime: formData.pickupTime,
+        returnDate: formData.returnDate,
+        returnTime: formData.returnTime,
+        totalDays: days.toString(),
+        totalPrice: total.toFixed(2),
+      };
+      
+      console.log('Sending email with data:', emailData);
+      console.log('CNIC being sent:', emailData.cnic);
+      
+      // Call your backend API endpoint that uses Resend
+      const response = await fetch('http://localhost:3001/api/send-booking-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           type: 'booking',
-          data: {
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            carName: car.name,
-            pickupLocation: formData.pickupLocation,
-            dropoffLocation: differentDropoff ? formData.dropoffLocation : formData.pickupLocation,
-            pickupDate: formData.pickupDate,
-            pickupTime: formData.pickupTime,
-            returnDate: formData.returnDate,
-            returnTime: formData.returnTime,
-            totalDays: days.toString(),
-            totalPrice: total.toFixed(2),
-          }
-        }
+          data: emailData
+        })
       });
 
-      if (error) {
-        console.error('Error sending email:', error);
-        toast.error("Booking submitted but email notification failed");
-      } else {
-        toast.success(`Booking request submitted! We'll contact you at ${formData.email}`);
+      if (!response.ok) {
+        throw new Error('Failed to send email');
       }
+
+      toast.success(`Booking request submitted! We'll contact you at ${formData.email}`);
     } catch (error) {
       console.error('Error:', error);
       toast.error("Booking submitted but email notification failed");
@@ -130,6 +168,7 @@ const BookingModal = ({ car, isOpen, onClose }: BookingModalProps) => {
       name: "",
       email: "",
       phone: "",
+      cnic: "",
       pickupDate: "",
       pickupTime: "10:00",
       returnDate: "",
@@ -185,6 +224,21 @@ const BookingModal = ({ car, isOpen, onClose }: BookingModalProps) => {
                 placeholder="+92 3XX XXXXXXX"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="cnic">CNIC Number *</Label>
+              <Input
+                id="cnic"
+                type="text"
+                placeholder="42101-1234567-8"
+                value={formData.cnic}
+                onChange={(e) => {
+                  const formatted = formatCNIC(e.target.value);
+                  setFormData({ ...formData, cnic: formatted });
+                }}
+                maxLength={15}
               />
             </div>
           </div>
