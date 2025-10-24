@@ -46,18 +46,25 @@ interface BookingEmailRequest {
   };
 }
 
-// Test email endpoint - commented out as not needed in production
-// Uncomment this block if you need to test email functionality during development
-/*
+// Test email endpoint for debugging
 app.get('/api/test-email', async (req, res) => {
   try {
-    console.log('Testing email functionality...');
+    console.log('🧪 Testing email functionality...');
     console.log('API Key:', apiKey ? 'Present' : 'Missing');
+    console.log('From Email:', EMAIL_CONFIG.FROM_EMAIL);
+    console.log('To Email:', EMAIL_CONFIG.TO_EMAIL);
+
+    if (!apiKey) {
+      return res.status(500).json({ 
+        success: false, 
+        error: 'RESEND_API_KEY is not configured' 
+      });
+    }
 
     const testResponse = await resend.emails.send({
       from: EMAIL_CONFIG.FROM_EMAIL,
       to: [EMAIL_CONFIG.TO_EMAIL],
-      subject: 'Test Email',
+      subject: 'Test Email - Car Rental System',
       html: `
       <!DOCTYPE html>
       <html>
@@ -68,20 +75,25 @@ app.get('/api/test-email', async (req, res) => {
             .header { background: #dc2626; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
             .content { background: #ffffff; padding: 25px; border-radius: 0 0 8px 8px; border: 1px solid #e5e7eb; }
             .footer { text-align: center; color: #6b7280; font-size: 14px; margin-top: 20px; }
+            .status { background: #10b981; color: white; padding: 10px; border-radius: 4px; text-align: center; margin: 20px 0; }
           </style>
         </head>
         <body>
           <div class="container">
             <div class="header">
-              <h2 style="margin: 0;">Email Test Successful</h2>
+              <h2 style="margin: 0;">✅ Email Test Successful</h2>
             </div>
 
             <div class="content">
-              <p>Your email service is working correctly.</p>
+              <div class="status">
+                <strong>Your email service is working correctly!</strong>
+              </div>
+              <p>This test email confirms that your car rental booking system can send notifications.</p>
+              <p><strong>Timestamp:</strong> ${new Date().toLocaleString()}</p>
             </div>
 
             <div class="footer">
-              <p>This is an automated test message.</p>
+              <p>This is an automated test message from your car rental system.</p>
             </div>
           </div>
         </body>
@@ -89,15 +101,26 @@ app.get('/api/test-email', async (req, res) => {
       `,
     });
 
-    console.log("✅ Test email sent:", testResponse);
-    res.json({ success: true, message: 'Test email sent successfully', data: testResponse });
+    console.log("✅ Test email sent successfully:", testResponse);
+    res.json({ 
+      success: true, 
+      message: 'Test email sent successfully', 
+      data: testResponse,
+      timestamp: new Date().toISOString()
+    });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("❌ Error sending test email:", error);
-    res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({ 
+      success: false, 
+      error: error.message,
+      details: {
+        name: error.name,
+        message: error.message
+      }
+    });
   }
 });
-*/
 
 
 app.post('/api/send-booking-email', async (req, res) => {
@@ -105,6 +128,24 @@ app.post('/api/send-booking-email', async (req, res) => {
     const { type, data }: BookingEmailRequest = req.body;
     console.log(`Processing ${type} email request for:`, data.email);
     console.log('CNIC data received:', data.cnic);
+    
+    // Validate API key
+    if (!apiKey) {
+      console.error('❌ RESEND_API_KEY is not configured');
+      return res.status(500).json({ 
+        success: false, 
+        error: 'Email service not configured. Please contact administrator.' 
+      });
+    }
+    
+    // Validate required fields
+    if (!data.email || !data.name) {
+      console.error('❌ Missing required fields:', { email: data.email, name: data.name });
+      return res.status(400).json({ 
+        success: false, 
+        error: 'Missing required fields: email and name are required' 
+      });
+    }
 
     let emailSubject = "";
     let emailHtml = "";
@@ -355,6 +396,11 @@ app.post('/api/send-booking-email', async (req, res) => {
       `;
     }
 
+    console.log('📧 Attempting to send email...');
+    console.log('From:', EMAIL_CONFIG.FROM_EMAIL);
+    console.log('To:', EMAIL_CONFIG.TO_EMAIL);
+    console.log('Subject:', emailSubject);
+
     const emailResponse = await resend.emails.send({
       from: EMAIL_CONFIG.FROM_EMAIL,
       to: [EMAIL_CONFIG.TO_EMAIL],
@@ -362,12 +408,32 @@ app.post('/api/send-booking-email', async (req, res) => {
       html: emailHtml,
     });
 
-    console.log("Email sent successfully:", emailResponse);
+    console.log("✅ Email sent successfully:", emailResponse);
 
     res.json({ success: true, data: emailResponse });
   } catch (error: any) {
-    console.error("Error in send-booking-email function:", error);
-    res.status(500).json({ success: false, error: error.message });
+    console.error("❌ Error in send-booking-email function:", error);
+    console.error("Error details:", {
+      message: error.message,
+      name: error.name,
+      stack: error.stack
+    });
+    
+    // Provide more specific error messages
+    let errorMessage = 'Failed to send email notification';
+    if (error.message?.includes('Invalid API key')) {
+      errorMessage = 'Email service configuration error. Please contact administrator.';
+    } else if (error.message?.includes('rate limit')) {
+      errorMessage = 'Email service temporarily unavailable. Please try again later.';
+    } else if (error.message?.includes('domain')) {
+      errorMessage = 'Email domain configuration error. Please contact administrator.';
+    }
+    
+    res.status(500).json({ 
+      success: false, 
+      error: errorMessage,
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 });
 

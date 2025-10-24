@@ -140,7 +140,7 @@ const BookingModal = ({ car, isOpen, onClose }: BookingModalProps) => {
       console.log('CNIC being sent:', emailData.cnic);
       
       // Call your backend API endpoint that uses Resend
-      const response = await fetch('http://localhost:3001/api/send-booking-email', {
+      const response = await fetch('/api/send-booking-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

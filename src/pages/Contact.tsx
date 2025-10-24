@@ -38,7 +38,7 @@ const Contact = () => {
 
     // Send email notification using Resend directly
     try {
-      const response = await fetch('http://localhost:3001/api/send-booking-email', {
+      const response = await fetch('/api/send-booking-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
